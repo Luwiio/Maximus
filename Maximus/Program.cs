@@ -14,7 +14,7 @@ namespace Maximus
             int midWait = 200;
             int longWait = 500;
 
-            
+
             string REALname = "Maximus the Bold";
             Console.Write("Greetings, my leader! What should I, your champion, be called? ");
 
@@ -35,9 +35,9 @@ namespace Maximus
 
             }
             else
-            
+
                 Writing("A GLORIOUS NAME! GOOD CHOICE, ADVENTURER");
-            
+
             Thread.Sleep(longWait);
 
             /*Define the real weapon*/
@@ -46,19 +46,19 @@ namespace Maximus
             List<string> weapons = new List<string>() { "Banana", "Rock", "Flower", "Fishing Rod", realWeapon };
             /*Print on individual lines the weapon options*/
             for (int weaponIndex = 0; weaponIndex < weapons.Count; weaponIndex++)
-            
+
                 Writing(weapons[weaponIndex]);
 
             Thread.Sleep(longWait);
 
             Writing("Choose the weapon I will wield: ", false);
-            
+
             /*Prints a response depending on use input*/
             string weapon = Console.ReadLine().ToLower();
             if (weapon == realWeapon.ToLower())
-            
-                Writing("The obvious choice for a capable leader!");    
-            
+
+                Writing("The obvious choice for a capable leader!");
+
             else
             {
                 Writing(weapon, false);
@@ -70,27 +70,54 @@ namespace Maximus
                 }
                 Thread.Sleep(longWait);
                 Writing(" What are you retarded? Obviously I am going to wield the " + realWeapon);
-  
+
             }
-            Thread.Sleep(longWait);  
-        }
-       /*Method that prints each individual character of a string with a delay 
-        which is by default set to shortWait but can be overridden
-       to any amount by putting a comma after the string and an integer*/
-        private static void Writing(string sentence, int customWait = ShortWait, bool newLine = true)
-        {
-            for (int letterIndex = 0; letterIndex < sentence.Length; letterIndex++)
+            Thread.Sleep(longWait);
+
+            /*Declaring some cards*/
+
+            Card ImbueWithFire = new Card("ImbueWithFire", "Flame", 1, 2);
+
+            Card ZingAttack = new Card("ZingAttack", "Lightning", 1, 0);
+            Card SwordSwing = new Card("SwordSwing", null, 3, 1);
+            Card BloodTaintedStrike = new Card("BloodTaintedStrike", "Blood", 3, 1);
+            Card BoulderSplitter = new Card("BoulderSplitter", "Ëarth", 10, 3);
+
+            //List of all starting cards
+            List<Card> CardList = new List<Card>() { ImbueWithFire, ZingAttack, SwordSwing, BloodTaintedStrike, BoulderSplitter };
+
+            //Initialises first Hand
+            Hand StartingHand = new Hand();
+            StartingHand.HandSize = 5;
+
+
+            // randomly generates a hand from starting cards
+
+            for (int CardCounter = 0; CardCounter < StartingHand.HandSize; CardCounter++)
             {
-                Console.Write(sentence[letterIndex]);
-                Thread.Sleep(customWait);
-            }
-            if (newLine)
-
-            Console.Write("\n");
+                Random random = new Random();
+                int randomIndex = random.Next(CardList.Count);
+                Card randomObject = CardList[randomIndex];
+                Console.WriteLine(randomObject.Name);
+            } 
         }
-        /*Overload for Writing method allowing for the declaration
-         of newLine to be false without needing to define an integer wait time*/
-        private static void Writing(string sentence, bool newLine) => Writing(sentence, ShortWait, newLine);
+            /*Method that prints each individual character of a string with a delay 
+             which is by default set to shortWait but can be overridden
+            to any amount by putting a comma after the string and an integer*/
+            private static void Writing(string sentence, int customWait = ShortWait, bool newLine = true)
+            {
+                for (int letterIndex = 0; letterIndex < sentence.Length; letterIndex++)
+                {
+                    Console.Write(sentence[letterIndex]);
+                    Thread.Sleep(customWait);
+                }
+                if (newLine)
 
-    }
-}
+                    Console.Write("\n");
+            }
+            /*Overload for Writing method allowing for the declaration
+             of newLine to be false without needing to define an integer wait time*/
+            private static void Writing(string sentence, bool newLine) => Writing(sentence, ShortWait, newLine);
+
+        }
+    }       

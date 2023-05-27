@@ -10,15 +10,21 @@ namespace Maximus
 {
     internal class Card
     {
-        public string Name { get; set; }
-        public int Damage { get; set; }
-        public string Element { get; set; }
-        public int Cost { get; set; }
-        public Image Art { get; set; }
-       public void LoadImage(string filepath)
+        public Card(string name, string element, int magnitude, int cost)
         {
-            Art = Image.FromFile(filepath);
+            Name = name;
+            Element = element;
+            Magnitude = magnitude;
+            Cost = cost;
         }
 
+        public string Name { get; set; }
+        public string Element { get; set; }
+        public int Magnitude { get; set; }
+
+        public int Cost { get; set; }
+
     }
+
+
 }
