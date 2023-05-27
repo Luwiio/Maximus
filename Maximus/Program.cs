@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading;
 
 namespace Maximus
@@ -10,6 +11,7 @@ namespace Maximus
 
         static void Main(string[] args)
         {
+
             /*Delay times in milliseconds for text output*/
             int midWait = 200;
             int longWait = 500;
@@ -76,35 +78,75 @@ namespace Maximus
 
             /*Declaring some cards*/
 
-            Card ImbueWithFire = new Card("ImbueWithFire", "Flame", 1, 2);
+            Card imbueWithFire = new Card("Imbue with Fire", "Flame", 1, 2);
 
-            Card ZingAttack = new Card("ZingAttack", "Lightning", 1, 0);
-            Card SwordSwing = new Card("SwordSwing", null, 3, 1);
-            Card BloodTaintedStrike = new Card("BloodTaintedStrike", "Blood", 3, 1);
-            Card BoulderSplitter = new Card("BoulderSplitter", "Ëarth", 10, 3);
+            Card zingAttack = new Card("Zing Attack", "Lightning", 1, 0);
+            Card swordSwing = new Card("Sword Swing", null, 3, 1);
+            Card bloodTaintedStrike = new Card("Blood tainted Strike", "Blood", 3, 1);
+            Card boulderSplitter = new Card("Boulder Splitter", "Earth", 10, 3);
 
             //List of all starting cards
-            List<Card> CardList = new List<Card>() { ImbueWithFire, ZingAttack, SwordSwing, BloodTaintedStrike, BoulderSplitter };
+            List<Card> CardList = new List<Card>() { imbueWithFire, zingAttack, swordSwing, bloodTaintedStrike, boulderSplitter };
 
             //Initialises first Hand
             Hand StartingHand = new Hand();
             StartingHand.HandSize = 5;
 
 
+            Console.Write("\n");
             // randomly generates a hand from starting cards
 
-            for (int CardCounter = 0; CardCounter < StartingHand.HandSize; CardCounter++)
+
+
+            for (int cardCounter = 0; cardCounter < StartingHand.HandSize; cardCounter++)
             {
                 Random random = new Random();
                 int randomIndex = random.Next(CardList.Count);
-                Card randomObject = CardList[randomIndex];
-                Console.WriteLine(randomObject.Name);
-            } 
+                Card randomCard = CardList[randomIndex];
+                StartingHand.Cards.Add(randomCard);
+                Console.WriteLine(StartingHand.Cards[cardCounter].Name);
+            }
+            Console.Write("\n");
+
+            Enemy bigBozo = new Enemy("Big Bozo", 30);
+
+            Writing(bigBozo.Name + " appears before you! Use your cards to kill " + bigBozo.Name + " to demonstrate your skills ;)");
+            Writing(bigBozo.Name + " currently has " + bigBozo.Health + " health");
+            Console.Write("Type the card you wabt to use: ");
+            
+            string cardPlayed = Console.ReadLine().ToLower();
+
+            //if (cardPlayed == basicAttackTypeCard && Card is in hand)
+            //if (cardPlayed == zingAttack.Name.ToLower() || cardPlayed == swordSwing.Name.ToLower() || cardPlayed == boulderSplitter.Name.ToLower())
+            //{
+            //   convert string to Card.BasicAttack(CurrentEnemy, Card.Magnitude, Card.Cost); 
+            //}
+
+            if (cardPlayed == zingAttack.Name.ToLower())
+            {
+                zingAttack.BasicAttack(bigBozo, zingAttack.Magnitude, zingAttack.Cost);
+
+            }
+            else if (cardPlayed == swordSwing.Name.ToLower())
+            {
+                swordSwing.BasicAttack(bigBozo, swordSwing.Magnitude, swordSwing.Cost);
+
+            }
+            else if (cardPlayed == boulderSplitter.Name.ToLower())
+            {
+                boulderSplitter.BasicAttack(bigBozo, boulderSplitter.Magnitude, boulderSplitter.Cost);
+            }
+            else
+                Writing("I won't act on behalf of an illiterate leader. Type the card name properly!");
+
+
+
+
         }
             /*Method that prints each individual character of a string with a delay 
              which is by default set to shortWait but can be overridden
             to any amount by putting a comma after the string and an integer*/
-            private static void Writing(string sentence, int customWait = ShortWait, bool newLine = true)
+            public static void Writing(string sentence, int customWait = ShortWait, bool newLine = true)
             {
                 for (int letterIndex = 0; letterIndex < sentence.Length; letterIndex++)
                 {
@@ -117,7 +159,9 @@ namespace Maximus
             }
             /*Overload for Writing method allowing for the declaration
              of newLine to be false without needing to define an integer wait time*/
-            private static void Writing(string sentence, bool newLine) => Writing(sentence, ShortWait, newLine);
+            public static void Writing(string sentence, bool newLine) => Writing(sentence, ShortWait, newLine);
+
+        
 
         }
     }       

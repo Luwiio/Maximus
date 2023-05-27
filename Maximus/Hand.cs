@@ -9,6 +9,9 @@ namespace Maximus
     internal class Hand
     {
         public int HandSize {  get; set; }
-
+        public List<Card> Cards { get; set; } = new List<Card>();      
     }
+
+
+
 }

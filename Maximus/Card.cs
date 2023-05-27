@@ -18,11 +18,20 @@ namespace Maximus
             Cost = cost;
         }
 
+
+
         public string Name { get; set; }
         public string Element { get; set; }
         public int Magnitude { get; set; }
-
         public int Cost { get; set; }
+
+        public void BasicAttack(Enemy enemy, int damage, int cost)
+        {
+
+            //bigBozo.Health = current Health - Magnitude
+            //Writing("KIIYAA!!");
+            //Writing("")
+        }
 
     }
 
