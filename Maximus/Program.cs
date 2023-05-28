@@ -89,8 +89,8 @@ namespace Maximus
             List<Card> CardList = new List<Card>() { imbueWithFire, zingAttack, swordSwing, bloodTaintedStrike, boulderSplitter };
 
             //Initialises first Hand
-            Hand StartingHand = new Hand();
-            StartingHand.HandSize = 5;
+            Hand startingHand = new Hand();
+            startingHand.HandSize = 5;
 
 
             Console.Write("\n");
@@ -98,13 +98,13 @@ namespace Maximus
 
 
 
-            for (int cardCounter = 0; cardCounter < StartingHand.HandSize; cardCounter++)
+            for (int cardCounter = 1; cardCounter <= startingHand.HandSize; cardCounter++)
             {
                 Random random = new Random();
                 int randomIndex = random.Next(CardList.Count);
                 Card randomCard = CardList[randomIndex];
-                StartingHand.Cards.Add(randomCard);
-                Console.WriteLine(StartingHand.Cards[cardCounter].Name);
+                startingHand.Cards.Add(randomCard);
+                Console.WriteLine($"{cardCounter}: { randomCard.Name} ");
             }
             Console.Write("\n");
 
@@ -112,32 +112,28 @@ namespace Maximus
 
             Writing(bigBozo.Name + " appears before you! Use your cards to kill " + bigBozo.Name + " to demonstrate your skills ;)");
             Writing(bigBozo.Name + " currently has " + bigBozo.Health + " health");
-            Console.Write("Type the card you wabt to use: ");
-            
-            string cardPlayed = Console.ReadLine().ToLower();
+            Console.Write("Type the number of the card you want to use: ");
 
-            //if (cardPlayed == basicAttackTypeCard && Card is in hand)
-            //if (cardPlayed == zingAttack.Name.ToLower() || cardPlayed == swordSwing.Name.ToLower() || cardPlayed == boulderSplitter.Name.ToLower())
-            //{
-            //   convert string to Card.BasicAttack(CurrentEnemy, Card.Magnitude, Card.Cost); 
-            //}
+            int cardPlayedIndex = Convert.ToInt16(Console.ReadLine());
 
-            if (cardPlayed == zingAttack.Name.ToLower())
+
+            Card cardPlayed = startingHand.Cards[cardPlayedIndex];
+            if (cardPlayedIndex >= 1 && cardPlayedIndex <= startingHand.HandSize)
             {
-                zingAttack.BasicAttack(bigBozo, zingAttack.Magnitude, zingAttack.Cost);
+                Writing($"You played {cardPlayed.Name} and have struck {bigBozo.Name} for {cardPlayed.Magnitude} damage");
 
-            }
-            else if (cardPlayed == swordSwing.Name.ToLower())
-            {
-                swordSwing.BasicAttack(bigBozo, swordSwing.Magnitude, swordSwing.Cost);
+                cardPlayed.BasicAttack(bigBozo, cardPlayed.Magnitude, cardPlayed.Cost);
+                BasicAttack
 
-            }
-            else if (cardPlayed == boulderSplitter.Name.ToLower())
-            {
-                boulderSplitter.BasicAttack(bigBozo, boulderSplitter.Magnitude, boulderSplitter.Cost);
             }
             else
-                Writing("I won't act on behalf of an illiterate leader. Type the card name properly!");
+            {
+                Writing("My instructions were pretty clear", false);
+                Writing("...", midWait, false);
+                Writing(" ", longWait, false);
+                Writing("Try again, but this time use your brain? ");
+                return;
+            }    
 
 
 

@@ -27,8 +27,8 @@ namespace Maximus
 
         public void BasicAttack(Enemy enemy, int damage, int cost)
         {
-
-            //bigBozo.Health = current Health - Magnitude
+            
+            enemy.Health = current Health - Magnitude
             //Writing("KIIYAA!!");
             //Writing("")
         }
