@@ -1,80 +1,82 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace Maximus
 {
     class Program
     {
-        private const int ShortWait = 40;
+        private const int ShortWait = 0;
 
         static void Main(string[] args)
         {
+
 
             /*Delay times in milliseconds for text output*/
             int midWait = 200;
             int longWait = 500;
 
 
-            string REALname = "Maximus the Bold";
-            Console.Write("Greetings, my leader! What should I, your champion, be called? ");
+            //string REALname = "Maximus the Bold";
+            //Console.Write("Greetings, my leader! What should I, your champion, be called? ");
 
-            string username = Console.ReadLine().ToLower();
+            //string username = Console.ReadLine().ToLower();
 
-            /*Prints a response depending on user input*/
-            if (username != REALname.ToLower())
-            {
-                Writing(username, false);
-                Thread.Sleep(midWait);
-                for (int i = 0; i < 3; i++)
-                {
-                    Console.Write('.');
-                    Thread.Sleep(midWait);
-                }
-                Thread.Sleep(longWait);
-                Writing(" That name is pathetic! I will instead be called " + REALname);
+            ///*Prints a response depending on user input*/
+            //if (username != REALname.ToLower())
+            //{
+            //    Writing(username, false);
+            //    Thread.Sleep(midWait);
+            //    for (int i = 0; i < 3; i++)
+            //    {
+            //        Console.Write('.');
+            //        Thread.Sleep(midWait);
+            //    }
+            //    Thread.Sleep(longWait);
+            //    Writing(" That name is pathetic! I will instead be called " + REALname);
 
-            }
-            else
+            //}
+            //else
 
-                Writing("A GLORIOUS NAME! GOOD CHOICE, ADVENTURER");
+            //    Writing("A GLORIOUS NAME! GOOD CHOICE, ADVENTURER");
 
-            Thread.Sleep(longWait);
+            //Thread.Sleep(longWait);
 
-            /*Define the real weapon*/
-            string realWeapon = "Sword";
-            /*Creates a list of weapon options*/
-            List<string> weapons = new List<string>() { "Banana", "Rock", "Flower", "Fishing Rod", realWeapon };
-            /*Print on individual lines the weapon options*/
-            for (int weaponIndex = 0; weaponIndex < weapons.Count; weaponIndex++)
+            ///*Define the real weapon*/
+            //string realWeapon = "Sword";
+            ///*Creates a list of weapon options*/
+            //List<string> weapons = new List<string>() { "Banana", "Rock", "Flower", "Fishing Rod", realWeapon };
+            ///*Print on individual lines the weapon options*/
+            //for (int weaponIndex = 0; weaponIndex < weapons.Count; weaponIndex++)
 
-                Writing(weapons[weaponIndex]);
+            //    Writing(weapons[weaponIndex]);
 
-            Thread.Sleep(longWait);
+            //Thread.Sleep(longWait);
 
-            Writing("Choose the weapon I will wield: ", false);
+            //Writing("Choose the weapon I will wield: ", false);
 
-            /*Prints a response depending on use input*/
-            string weapon = Console.ReadLine().ToLower();
-            if (weapon == realWeapon.ToLower())
+            ///*Prints a response depending on use input*/
+            //string weapon = Console.ReadLine().ToLower();
+            //if (weapon == realWeapon.ToLower())
 
-                Writing("The obvious choice for a capable leader!");
+            //    Writing("The obvious choice for a capable leader!");
 
-            else
-            {
-                Writing(weapon, false);
-                Thread.Sleep(midWait);
-                for (int i = 0; i < 3; i++)
-                {
-                    Console.Write('.');
-                    Thread.Sleep(midWait);
-                }
-                Thread.Sleep(longWait);
-                Writing(" What are you retarded? Obviously I am going to wield the " + realWeapon);
+            //else
+            //{
+            //    Writing(weapon, false);
+            //    Thread.Sleep(midWait);
+            //    for (int i = 0; i < 3; i++)
+            //    {
+            //        Console.Write('.');
+            //        Thread.Sleep(midWait);
+            //    }
+            //    Thread.Sleep(longWait);
+            //    Writing(" What are you retarded? Obviously I am going to wield the " + realWeapon);
 
-            }
-            Thread.Sleep(longWait);
+            //}
+            //Thread.Sleep(longWait);
 
             /*Declaring some cards*/
 
@@ -89,75 +91,70 @@ namespace Maximus
             List<Card> CardList = new List<Card>() { imbueWithFire, zingAttack, swordSwing, bloodTaintedStrike, boulderSplitter };
 
             //Initialises first Hand
-            Hand startingHand = new Hand();
-            startingHand.HandSize = 5;
+            Hand startingHand = new Hand(5, CardList);
 
 
-            Console.Write("\n");
-            // randomly generates a hand from starting cards
-
-
-
-            for (int cardCounter = 1; cardCounter <= startingHand.HandSize; cardCounter++)
-            {
-                Random random = new Random();
-                int randomIndex = random.Next(CardList.Count);
-                Card randomCard = CardList[randomIndex];
-                startingHand.Cards.Add(randomCard);
-                Console.WriteLine($"{cardCounter}: { randomCard.Name} ");
-            }
+            //makes a new line
             Console.Write("\n");
 
+
+            //initialises and introduces first enemy: Big Bozo
             Enemy bigBozo = new Enemy("Big Bozo", 30);
-
             Writing(bigBozo.Name + " appears before you! Use your cards to kill " + bigBozo.Name + " to demonstrate your skills ;)");
             Writing(bigBozo.Name + " currently has " + bigBozo.Health + " health");
-            Console.Write("Type the number of the card you want to use: ");
 
-            int cardPlayedIndex = Convert.ToInt16(Console.ReadLine());
-
-
-            Card cardPlayed = startingHand.Cards[cardPlayedIndex];
-            if (cardPlayedIndex >= 1 && cardPlayedIndex <= startingHand.HandSize)
+            //Allows the player to use cards to attack Big Bozo until he dies.
+            while (bigBozo.Health > 0)
             {
-                Writing($"You played {cardPlayed.Name} and have struck {bigBozo.Name} for {cardPlayed.Magnitude} damage");
+                Console.Write("Type the number of the card you want to use: ");
+                int cardPlayedIndex = Convert.ToInt16(Console.ReadLine()) - 1;
 
-                cardPlayed.BasicAttack(bigBozo, cardPlayed.Magnitude, cardPlayed.Cost);
-                BasicAttack
-
-            }
-            else
-            {
-                Writing("My instructions were pretty clear", false);
-                Writing("...", midWait, false);
-                Writing(" ", longWait, false);
-                Writing("Try again, but this time use your brain? ");
-                return;
-            }    
-
-
-
-
-        }
-            /*Method that prints each individual character of a string with a delay 
-             which is by default set to shortWait but can be overridden
-            to any amount by putting a comma after the string and an integer*/
-            public static void Writing(string sentence, int customWait = ShortWait, bool newLine = true)
-            {
-                for (int letterIndex = 0; letterIndex < sentence.Length; letterIndex++)
+                
+                if (cardPlayedIndex >= 0 && cardPlayedIndex < startingHand.HandSize)
                 {
-                    Console.Write(sentence[letterIndex]);
-                    Thread.Sleep(customWait);
+                    Card cardPlayed = startingHand.CurrentHand[cardPlayedIndex];
+
+                    cardPlayed.BasicAttack(bigBozo);
+                    startingHand.CurrentHand.RemoveAt(cardPlayedIndex);
+                    startingHand.HandSize--;
+                    for (int cardCounter = 1; cardCounter <= startingHand.HandSize; cardCounter++)
+                    {
+
+                       Console.WriteLine($"{cardCounter}: {startingHand.CurrentHand[cardCounter -1].Name} ");
+                    }
+
                 }
-                if (newLine)
-
-                    Console.Write("\n");
+                else
+                {
+                    Writing("My instructions were pretty clear", false);
+                    Writing("...", midWait, false);
+                    Writing(" ", longWait, false);
+                    Writing("Try again, but this time use your brain? ");
+                }
             }
-            /*Overload for Writing method allowing for the declaration
-             of newLine to be false without needing to define an integer wait time*/
-            public static void Writing(string sentence, bool newLine) => Writing(sentence, ShortWait, newLine);
 
-        
+
 
         }
-    }       
+        /*Method that prints each individual character of a string with a delay 
+         which is by default set to shortWait but can be overridden
+        to any amount by putting a comma after the string and an integer*/
+        public static void Writing(string sentence, int customWait = ShortWait, bool newLine = true)
+        {
+            for (int letterIndex = 0; letterIndex < sentence.Length; letterIndex++)
+            {
+                Console.Write(sentence[letterIndex]);
+                Thread.Sleep(customWait);
+            }
+            if (newLine)
+
+                Console.Write("\n");
+        }
+        /*Overload for Writing method allowing for the declaration
+         of newLine to be false without needing to define an integer wait time*/
+        public static void Writing(string sentence, bool newLine) => Writing(sentence, ShortWait, newLine);
+
+
+
+    }
+}

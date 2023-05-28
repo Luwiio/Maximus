@@ -25,11 +25,18 @@ namespace Maximus
         public int Magnitude { get; set; }
         public int Cost { get; set; }
 
-        public void BasicAttack(Enemy enemy, int damage, int cost)
+        public void BasicAttack(Enemy enemy)
         {
-            
-            enemy.Health = current Health - Magnitude
-            //Writing("KIIYAA!!");
+
+            int remainingEnemyHealth = enemy.Health - Magnitude;
+            if (remainingEnemyHealth > 0) 
+            {
+                Program.Writing("KIIYAA!!");
+                Program.Writing($"You played {Name} and have struck {enemy.Name} for {Magnitude} damage");
+                Program.Writing($"{enemy.Name} has {remainingEnemyHealth} health remaining");
+                enemy.Health = remainingEnemyHealth;
+            }
+
             //Writing("")
         }
 
