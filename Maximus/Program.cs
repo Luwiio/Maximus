@@ -78,20 +78,28 @@ namespace Maximus
             //}
             //Thread.Sleep(longWait);
 
+            //Initialises the player
+
+            Player Player = new Player(30, 20, 20);
+            
+            
+
+            
             /*Declaring some cards*/
 
             Card imbueWithFire = new Card("Imbue with Fire", "Flame", 1, 2, false, true, false);
-
+            
+            Card bloodTaintedStrike = new Card("Blood tainted Strike", "Blood", 3, 1, false, false, true);
+            
             Card zingAttack = new Card("Zing Attack", "Lightning", 1, 0, true, false, false);
             Card swordSwing = new Card("Sword Swing", null, 3, 1, true, false, false);
-            Card bloodTaintedStrike = new Card("Blood tainted Strike", "Blood", 3, 1, false, false, true);
             Card boulderSplitter = new Card("Boulder Splitter", "Earth", 10, 3, true, false, false);
 
             //List of all starting cards
             List<Card> CardList = new List<Card>() { imbueWithFire, zingAttack, swordSwing, bloodTaintedStrike, boulderSplitter };
 
             //Initialises first Hand
-            Hand startingHand = new Hand(5, CardList);
+            Hand startingHand = new Hand(10, CardList);
 
 
             //makes a new line
@@ -114,13 +122,31 @@ namespace Maximus
                 {
                     Card cardPlayed = startingHand.CurrentHand[cardPlayedIndex];
 
-                    cardPlayed.BasicAttack(bigBozo);
+                    cardPlayed.BasicAttack(bigBozo, Player);
                     startingHand.CurrentHand.RemoveAt(cardPlayedIndex);
                     startingHand.HandSize--;
                     for (int cardCounter = 1; cardCounter <= startingHand.HandSize; cardCounter++)
                     {
 
-                       Console.WriteLine($"{cardCounter}: {startingHand.CurrentHand[cardCounter -1].Name} ");
+                    
+                        Console.Write($"{cardCounter}: {startingHand.CurrentHand[cardCounter - 1].Name}");
+                        if (startingHand.CurrentHand[cardCounter - 1].BasicAttackTypeCard)
+                        {
+                            Console.WriteLine($"    DMG: {startingHand.CurrentHand[cardCounter - 1].Magnitude}. MP Cost: {startingHand.CurrentHand[cardCounter - 1].Cost} ");
+                        }
+                        else if (startingHand.CurrentHand[cardCounter - 1].HPCostTypeCard)
+                        {
+                            Console.WriteLine($"    DMG: {startingHand.CurrentHand[cardCounter - 1].Magnitude}. HP Cost: {startingHand.CurrentHand[cardCounter - 1].Cost} ");
+                        }
+                        else if (startingHand.CurrentHand[cardCounter - 1].BuffTypeCard)
+                        {
+                            Console.WriteLine($"    Buff Attack by: {startingHand.CurrentHand[cardCounter - 1].Magnitude}. MP Cost: {startingHand.CurrentHand[cardCounter - 1].Cost} ");
+                        }
+                        //TO CATCH IF I HAVENT GIVEN EACH CARD A TYPE THAT CAN BE HANDLED BY THIS CODE
+                        else
+                        {
+                            Console.WriteLine(" *Make a Type for this card* ");
+                        }
                     }
 
                 }
@@ -132,7 +158,7 @@ namespace Maximus
                     Writing("Try again, but this time use your brain? ");
                 }
             }
-
+            Writing("${bigBozo.Name} is dead :O");
 
 
         }

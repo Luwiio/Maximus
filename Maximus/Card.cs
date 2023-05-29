@@ -32,18 +32,22 @@ namespace Maximus
 
         public bool HPCostTypeCard { get; set; }
 
-        public void BasicAttack(Enemy enemy)
+        public void BasicAttack(Enemy enemy, Player player)
         {
 
             int remainingEnemyHealth = enemy.Health - Magnitude;
+            int remainingPlayerMana = player.CurrentMana - Cost;
             if (remainingEnemyHealth > 0) 
             {
-                Program.Writing("KIIYAA!!");
+                Program.Writing("\nKIIYAA!!");
                 Program.Writing($"You played {Name} and have struck {enemy.Name} for {Magnitude} damage");
                 Program.Writing($"{enemy.Name} has {remainingEnemyHealth} health remaining");
+                Program.Writing($"You have {remainingPlayerMana} mana remaining");
                 enemy.Health = remainingEnemyHealth;
+                player.CurrentMana = remainingPlayerMana;
             }
-
+            else
+                Program.Writing("\nI... I think you murdered " + enemy.Name);
             //Writing("")
         }
 
