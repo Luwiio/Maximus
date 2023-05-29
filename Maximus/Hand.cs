@@ -21,7 +21,25 @@ namespace Maximus
                 int randomIndex = random.Next(allCardsThatExist.Count);
                 Card randomCard = allCardsThatExist[randomIndex];
                 CurrentHand.Add(randomCard);
-                Console.WriteLine($"{cardCounter}: {randomCard.Name} ");
+                //Lets the player know what their cards do
+                Console.Write($"{cardCounter}: {randomCard.Name}");
+                if (randomCard.BasicAttackTypeCard)
+                {
+                    Console.WriteLine($"    DMG: {randomCard.Magnitude}. MP Cost: {randomCard.Cost} ");
+                }
+                else if (randomCard.HPCostTypeCard)
+                {
+                    Console.WriteLine($"    DMG: {randomCard.Magnitude}. HP Cost: {randomCard.Cost} ");
+                }
+                else if (randomCard.BuffTypeCard)
+                {
+                    Console.WriteLine($"    Buff Attack by: {randomCard.Magnitude}. MP Cost: {randomCard.Cost} ");
+                }
+                //TO CATCH IF I HAVENT GIVEN EACH CARD A TYPE THAT CAN BE HANDLED BY THIS CODE
+                else
+                {
+                    Console.WriteLine(" *Make a Type for this card* ");
+                }
             }
 
         }

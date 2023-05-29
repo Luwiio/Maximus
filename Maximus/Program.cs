@@ -80,12 +80,12 @@ namespace Maximus
 
             /*Declaring some cards*/
 
-            Card imbueWithFire = new Card("Imbue with Fire", "Flame", 1, 2);
+            Card imbueWithFire = new Card("Imbue with Fire", "Flame", 1, 2, false, true, false);
 
-            Card zingAttack = new Card("Zing Attack", "Lightning", 1, 0);
-            Card swordSwing = new Card("Sword Swing", null, 3, 1);
-            Card bloodTaintedStrike = new Card("Blood tainted Strike", "Blood", 3, 1);
-            Card boulderSplitter = new Card("Boulder Splitter", "Earth", 10, 3);
+            Card zingAttack = new Card("Zing Attack", "Lightning", 1, 0, true, false, false);
+            Card swordSwing = new Card("Sword Swing", null, 3, 1, true, false, false);
+            Card bloodTaintedStrike = new Card("Blood tainted Strike", "Blood", 3, 1, false, false, true);
+            Card boulderSplitter = new Card("Boulder Splitter", "Earth", 10, 3, true, false, false);
 
             //List of all starting cards
             List<Card> CardList = new List<Card>() { imbueWithFire, zingAttack, swordSwing, bloodTaintedStrike, boulderSplitter };

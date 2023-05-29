@@ -10,12 +10,15 @@ namespace Maximus
 {
     internal class Card
     {
-        public Card(string name, string element, int magnitude, int cost)
+        public Card(string name, string element, int magnitude, int cost, bool basicAttackTypeCard, bool buffTypeCard, bool hPCostTypeCard)
         {
             Name = name;
             Element = element;
             Magnitude = magnitude;
             Cost = cost;
+            BasicAttackTypeCard = basicAttackTypeCard;
+            BuffTypeCard = buffTypeCard;
+            HPCostTypeCard = hPCostTypeCard;
         }
 
 
@@ -24,6 +27,10 @@ namespace Maximus
         public string Element { get; set; }
         public int Magnitude { get; set; }
         public int Cost { get; set; }
+        public bool BasicAttackTypeCard { get; set; }
+        public bool BuffTypeCard { get; set; }
+
+        public bool HPCostTypeCard { get; set; }
 
         public void BasicAttack(Enemy enemy)
         {
