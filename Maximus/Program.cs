@@ -8,6 +8,8 @@ namespace Maximus
 {
     class Program
     {
+        //Used in Writing method as default delay between characters printed
+        //Currently set to 0 for speed and convenience when testing program
         private const int ShortWait = 0;
 
         static void Main(string[] args)
@@ -17,66 +19,73 @@ namespace Maximus
             /*Delay times in milliseconds for text output*/
             int midWait = 200;
             int longWait = 500;
+            //Just to speed up testing
+            midWait = 0;
+            longWait = 0;
 
 
-            //string REALname = "Maximus the Bold";
-            //Console.Write("Greetings, my leader! What should I, your champion, be called? ");
+            string championName = "Maximus the Bold";
+            Console.Write("Greetings, my leader! What should I, your champion, be called? ");
 
-            //string username = Console.ReadLine().ToLower();
+            string userInputtedName = Console.ReadLine().ToLower();
 
-            ///*Prints a response depending on user input*/
-            //if (username != REALname.ToLower())
-            //{
-            //    Writing(username, false);
-            //    Thread.Sleep(midWait);
-            //    for (int i = 0; i < 3; i++)
-            //    {
-            //        Console.Write('.');
-            //        Thread.Sleep(midWait);
-            //    }
-            //    Thread.Sleep(longWait);
-            //    Writing(" That name is pathetic! I will instead be called " + REALname);
+            /*Prints a response depending on user input*/
+            if (userInputtedName != championName.ToLower())
+            {
+                Writing(userInputtedName, false);
+                Thread.Sleep(midWait);
+                for (int i = 0; i < 3; i++)
+                {
+                    Console.Write('.');
+                    Thread.Sleep(midWait);
+                }
+                Thread.Sleep(longWait);
+                Writing(" That name is pathetic! I will instead be called " + championName);
 
-            //}
-            //else
+            }
+            else
 
-            //    Writing("A GLORIOUS NAME! GOOD CHOICE, ADVENTURER");
+                Writing("A GLORIOUS NAME! GOOD CHOICE, ADVENTURER");
 
-            //Thread.Sleep(longWait);
+            Thread.Sleep(longWait);
 
-            ///*Define the real weapon*/
-            //string realWeapon = "Sword";
-            ///*Creates a list of weapon options*/
-            //List<string> weapons = new List<string>() { "Banana", "Rock", "Flower", "Fishing Rod", realWeapon };
-            ///*Print on individual lines the weapon options*/
-            //for (int weaponIndex = 0; weaponIndex < weapons.Count; weaponIndex++)
+            /*Define the real weapon of the champion*/
+            string championWeapon = "Sword";
+            /*Creates a list of weapon options*/
+            List<string> weapons = new List<string>() { "Banana", "Rock", "Flower", "Fishing Rod", championWeapon };
+            /*Print on individual lines the weapon options*/
+            for (int weaponIndex = 0; weaponIndex < weapons.Count; weaponIndex++)
 
-            //    Writing(weapons[weaponIndex]);
+                Writing(weapons[weaponIndex]);
 
-            //Thread.Sleep(longWait);
+            Thread.Sleep(longWait);
 
-            //Writing("Choose the weapon I will wield: ", false);
+            Writing("Choose the weapon I will wield: ", false);
 
-            ///*Prints a response depending on use input*/
-            //string weapon = Console.ReadLine().ToLower();
-            //if (weapon == realWeapon.ToLower())
+            /*Prints a response depending on use input*/
+            string userInputtedWeapon = Console.ReadLine().ToLower();
+            if (userInputtedWeapon == championWeapon.ToLower())
 
-            //    Writing("The obvious choice for a capable leader!");
+                Writing("The obvious choice for a capable leader!");
 
-            //else
-            //{
-            //    Writing(weapon, false);
-            //    Thread.Sleep(midWait);
-            //    for (int i = 0; i < 3; i++)
-            //    {
-            //        Console.Write('.');
-            //        Thread.Sleep(midWait);
-            //    }
-            //    Thread.Sleep(longWait);
-            //    Writing(" What are you retarded? Obviously I am going to wield the " + realWeapon);
+            else
+            {
+                Writing(userInputtedWeapon, false);
+                Thread.Sleep(midWait);
+                for (int i = 0; i < 3; i++)
+                {
+                    Console.Write('.');
+                    Thread.Sleep(midWait);
+                }
+                Thread.Sleep(longWait);
+                Writing(" What are you retarded? Obviously I am going to wield the " + championWeapon);
 
-            //}
-            //Thread.Sleep(longWait);
+            }
+            Thread.Sleep(longWait);
+
+            //makes a new line
+            Console.WriteLine();
+
 
             //Initialises the player
 
@@ -87,13 +96,13 @@ namespace Maximus
             
             /*Declaring some cards*/
 
-            Card imbueWithFire = new Card("Imbue with Fire", "Flame", 1, 2, false, true, false);
+            Card imbueWithFire = new Card("Imbue with Fire", "Flame", 1, 2, "Buff");
             
-            Card bloodTaintedStrike = new Card("Blood tainted Strike", "Blood", 3, 1, false, false, true);
+            Card bloodTaintedStrike = new Card("Blood tainted Strike", "Blood", 3, 1, "HP Cost Attack");
             
-            Card zingAttack = new Card("Zing Attack", "Lightning", 1, 0, true, false, false);
-            Card swordSwing = new Card("Sword Swing", null, 3, 1, true, false, false);
-            Card boulderSplitter = new Card("Boulder Splitter", "Earth", 10, 3, true, false, false);
+            Card zingAttack = new Card("Zing Attack", "Lightning", 1, 0, "Basic Attack");
+            Card swordSwing = new Card("Sword Swing", null, 3, 1, "Basic Attack");
+            Card boulderSplitter = new Card("Boulder Splitter", "Earth", 10, 3, "Basic Attack");
 
             //List of all starting cards
             List<Card> CardList = new List<Card>() { imbueWithFire, zingAttack, swordSwing, bloodTaintedStrike, boulderSplitter };
@@ -103,17 +112,19 @@ namespace Maximus
 
 
             //makes a new line
-            Console.Write("\n");
+            Console.WriteLine();
 
 
             //initialises and introduces first enemy: Big Bozo
             Enemy bigBozo = new Enemy("Big Bozo", 30);
             Writing(bigBozo.Name + " appears before you! Use your cards to kill " + bigBozo.Name + " to demonstrate your skills ;)");
             Writing(bigBozo.Name + " currently has " + bigBozo.Health + " health");
+            Writing("You currently have " + Player.CurrentMana + '/' + Player.MaxMana + " mana");
 
             //Allows the player to use cards to attack Big Bozo until he dies.
             while (bigBozo.Health > 0)
             {
+                Console.WriteLine();
                 Console.Write("Type the number of the card you want to use: ");
                 int cardPlayedIndex = Convert.ToInt16(Console.ReadLine()) - 1;
 
@@ -130,15 +141,15 @@ namespace Maximus
 
                     
                         Console.Write($"{cardCounter}: {startingHand.CurrentHand[cardCounter - 1].Name}");
-                        if (startingHand.CurrentHand[cardCounter - 1].BasicAttackTypeCard)
+                        if (startingHand.CurrentHand[cardCounter - 1].CardType == "Basic Attack")
                         {
                             Console.WriteLine($"    DMG: {startingHand.CurrentHand[cardCounter - 1].Magnitude}. MP Cost: {startingHand.CurrentHand[cardCounter - 1].Cost} ");
                         }
-                        else if (startingHand.CurrentHand[cardCounter - 1].HPCostTypeCard)
+                        else if (startingHand.CurrentHand[cardCounter - 1].CardType == "HP Cost Attack")
                         {
                             Console.WriteLine($"    DMG: {startingHand.CurrentHand[cardCounter - 1].Magnitude}. HP Cost: {startingHand.CurrentHand[cardCounter - 1].Cost} ");
                         }
-                        else if (startingHand.CurrentHand[cardCounter - 1].BuffTypeCard)
+                        else if (startingHand.CurrentHand[cardCounter - 1].CardType == "Buff")
                         {
                             Console.WriteLine($"    Buff Attack by: {startingHand.CurrentHand[cardCounter - 1].Magnitude}. MP Cost: {startingHand.CurrentHand[cardCounter - 1].Cost} ");
                         }

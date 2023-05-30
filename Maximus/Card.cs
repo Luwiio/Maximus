@@ -10,15 +10,13 @@ namespace Maximus
 {
     internal class Card
     {
-        public Card(string name, string element, int magnitude, int cost, bool basicAttackTypeCard, bool buffTypeCard, bool hPCostTypeCard)
+        public Card(string name, string element, int magnitude, int cost, string cardType)
         {
             Name = name;
             Element = element;
             Magnitude = magnitude;
             Cost = cost;
-            BasicAttackTypeCard = basicAttackTypeCard;
-            BuffTypeCard = buffTypeCard;
-            HPCostTypeCard = hPCostTypeCard;
+            CardType = cardType;
         }
 
 
@@ -27,10 +25,7 @@ namespace Maximus
         public string Element { get; set; }
         public int Magnitude { get; set; }
         public int Cost { get; set; }
-        public bool BasicAttackTypeCard { get; set; }
-        public bool BuffTypeCard { get; set; }
-
-        public bool HPCostTypeCard { get; set; }
+        public string CardType { get; set; }
 
         public void BasicAttack(Enemy enemy, Player player)
         {
@@ -42,7 +37,7 @@ namespace Maximus
                 Program.Writing("\nKIIYAA!!");
                 Program.Writing($"You played {Name} and have struck {enemy.Name} for {Magnitude} damage");
                 Program.Writing($"{enemy.Name} has {remainingEnemyHealth} health remaining");
-                Program.Writing($"You have {remainingPlayerMana} mana remaining");
+                Program.Writing($"You now have {remainingPlayerMana}/{player.MaxMana} mana");
                 enemy.Health = remainingEnemyHealth;
                 player.CurrentMana = remainingPlayerMana;
             }
