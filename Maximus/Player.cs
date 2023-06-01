@@ -9,16 +9,21 @@ namespace Maximus
     internal class Player
     {
 
-        public Player(int playerHealth, int maxMana, int currentMana)
+        public Player(int playerMaxHealth, int playerCurrentHealth, int playerMaxMana, int playerCurrentMana, int playerBonusAttack)
         {
-            PlayerHealth = playerHealth;
-            MaxMana = maxMana;
-            CurrentMana = currentMana;
+            PlayerMaxHealth = playerMaxHealth;
+            PlayerCurrentHealth = playerCurrentHealth;
+            PlayerMaxMana = playerMaxMana;
+            PlayerCurrentMana = playerCurrentMana;
+            PlayerBonusAttack = playerBonusAttack;  
         }
 
-        public int PlayerHealth { get; set; }
-        public int MaxMana { get; set; }
-        public int CurrentMana { get; set; }
+        public int PlayerMaxHealth { get; set; }
+        public int PlayerCurrentHealth { get; set; }
+        public int PlayerMaxMana { get; set; }
+        public int PlayerCurrentMana { get; set; }
+
+        public int PlayerBonusAttack { get; set; }
 
 
 

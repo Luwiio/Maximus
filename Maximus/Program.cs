@@ -10,18 +10,18 @@ namespace Maximus
     {
         //Used in Writing method as default delay between characters printed
         //Currently set to 0 for speed and convenience when testing program
-        private const int ShortWait = 0;
+        private const int ShortWait = 30;
+
+        /*Delay times in milliseconds for text output*/
+        /*Set to 0 for speed of testing. Should be 200 and 500?*/
+        private const int midWait = 200;
+        private const int longWait = 500;
 
         static void Main(string[] args)
         {
 
 
-            /*Delay times in milliseconds for text output*/
-            int midWait = 200;
-            int longWait = 500;
-            //Just to speed up testing
-            midWait = 0;
-            longWait = 0;
+
 
 
             string championName = "Maximus the Bold";
@@ -33,13 +33,7 @@ namespace Maximus
             if (userInputtedName != championName.ToLower())
             {
                 Writing(userInputtedName, false);
-                Thread.Sleep(midWait);
-                for (int i = 0; i < 3; i++)
-                {
-                    Console.Write('.');
-                    Thread.Sleep(midWait);
-                }
-                Thread.Sleep(longWait);
+                ThreeDotWritingLoop();
                 Writing(" That name is pathetic! I will instead be called " + championName);
 
             }
@@ -71,13 +65,7 @@ namespace Maximus
             else
             {
                 Writing(userInputtedWeapon, false);
-                Thread.Sleep(midWait);
-                for (int i = 0; i < 3; i++)
-                {
-                    Console.Write('.');
-                    Thread.Sleep(midWait);
-                }
-                Thread.Sleep(longWait);
+                ThreeDotWritingLoop();
                 Writing(" What are you retarded? Obviously I am going to wield the " + championWeapon);
 
             }
@@ -88,8 +76,13 @@ namespace Maximus
 
 
             //Initialises the player
+            /*Because player Max/current HP/MP are always the same upon initialisation (for now) 
+            ,I made variables to change the values more quickly*/
+            int playerHP = 30;
+            int playerMP = 20;
+            
 
-            Player Player = new Player(30, 20, 20);
+            Player Player = new Player(playerHP, playerHP, playerMP, playerMP, 0);
             
             
 
@@ -119,7 +112,8 @@ namespace Maximus
             Enemy bigBozo = new Enemy("Big Bozo", 30);
             Writing(bigBozo.Name + " appears before you! Use your cards to kill " + bigBozo.Name + " to demonstrate your skills ;)");
             Writing(bigBozo.Name + " currently has " + bigBozo.Health + " health");
-            Writing("You currently have " + Player.CurrentMana + '/' + Player.MaxMana + " mana");
+            Writing("You currently have " + Player.PlayerCurrentHealth + '/' + Player.PlayerMaxHealth + " health");
+            Writing("You currently have " + Player.PlayerCurrentMana + '/' + Player.PlayerMaxMana + " mana");
 
             //Allows the player to use cards to attack Big Bozo until he dies.
             while (bigBozo.Health > 0)
@@ -133,9 +127,21 @@ namespace Maximus
                 {
                     Card cardPlayed = startingHand.CurrentHand[cardPlayedIndex];
 
-                    cardPlayed.BasicAttack(bigBozo, Player);
+                    if (cardPlayed.CardType == "Basic Attack")
+                    {
+                        cardPlayed.BasicAttack(bigBozo, Player);
+                    }
+                    else if (cardPlayed.CardType == "HP Cost Attack")
+                    {
+                        cardPlayed.HpCostAttack(bigBozo, Player);
+                    }
+                    else if (cardPlayed.CardType == "Buff")
+                        {
+                            cardPlayed.Buff(Player);
+                        }
                     startingHand.CurrentHand.RemoveAt(cardPlayedIndex);
                     startingHand.HandSize--;
+
                     for (int cardCounter = 1; cardCounter <= startingHand.HandSize; cardCounter++)
                     {
 
@@ -143,14 +149,17 @@ namespace Maximus
                         Console.Write($"{cardCounter}: {startingHand.CurrentHand[cardCounter - 1].Name}");
                         if (startingHand.CurrentHand[cardCounter - 1].CardType == "Basic Attack")
                         {
-                            Console.WriteLine($"    DMG: {startingHand.CurrentHand[cardCounter - 1].Magnitude}. MP Cost: {startingHand.CurrentHand[cardCounter - 1].Cost} ");
+
+                            Console.WriteLine($"    DMG: {startingHand.CurrentHand[cardCounter - 1].Magnitude + Player.PlayerBonusAttack}. MP Cost: {startingHand.CurrentHand[cardCounter - 1].Cost} ");
                         }
                         else if (startingHand.CurrentHand[cardCounter - 1].CardType == "HP Cost Attack")
                         {
-                            Console.WriteLine($"    DMG: {startingHand.CurrentHand[cardCounter - 1].Magnitude}. HP Cost: {startingHand.CurrentHand[cardCounter - 1].Cost} ");
+                            
+                            Console.WriteLine($"    DMG: {startingHand.CurrentHand[cardCounter - 1].Magnitude + Player.PlayerBonusAttack}. HP Cost: {startingHand.CurrentHand[cardCounter - 1].Cost} ");
                         }
                         else if (startingHand.CurrentHand[cardCounter - 1].CardType == "Buff")
                         {
+                            
                             Console.WriteLine($"    Buff Attack by: {startingHand.CurrentHand[cardCounter - 1].Magnitude}. MP Cost: {startingHand.CurrentHand[cardCounter - 1].Cost} ");
                         }
                         //TO CATCH IF I HAVENT GIVEN EACH CARD A TYPE THAT CAN BE HANDLED BY THIS CODE
@@ -158,6 +167,7 @@ namespace Maximus
                         {
                             Console.WriteLine(" *Make a Type for this card* ");
                         }
+                        
                     }
 
                 }
@@ -191,7 +201,16 @@ namespace Maximus
          of newLine to be false without needing to define an integer wait time*/
         public static void Writing(string sentence, bool newLine) => Writing(sentence, ShortWait, newLine);
 
-
+        public static void ThreeDotWritingLoop()
+        {
+            Thread.Sleep(midWait);
+            for (int i = 0; i < 3; i++)
+            {
+                Console.Write('.');
+                Thread.Sleep(midWait);
+            }
+            Thread.Sleep(longWait);
+        }
 
     }
 }
