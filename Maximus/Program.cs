@@ -10,12 +10,14 @@ namespace Maximus
     {
         //Used in Writing method as default delay between characters printed
         //Currently set to 0 for speed and convenience when testing program
-        private const int ShortWait = 30;
+        private const int ShortWait = 0;
 
         /*Delay times in milliseconds for text output*/
         /*Set to 0 for speed of testing. Should be 200 and 500?*/
-        private const int midWait = 200;
-        private const int longWait = 500;
+        private const int midWait = 0;
+        private const int longWait = 0;
+
+        public static List<Card> CardList { get; set; }
 
         static void Main(string[] args)
         {
@@ -74,34 +76,33 @@ namespace Maximus
             //makes a new line
             Console.WriteLine();
 
+            /*Declaring some cards*/
+
+            Card imbueWithFire = new Card("Imbue with Fire", ElementType.Flame, 1, 2, "Buff");
+
+            Card bloodTaintedStrike = new Card("Blood tainted Strike", ElementType.Blood, 3, 1, "HP Cost Attack");
+
+            Card zingAttack = new Card("Zing Attack", ElementType.Lightning, 1, 0, "Basic Attack");
+            Card swordSwing = new Card("Sword Swing", ElementType.None, 3, 1, "Basic Attack");
+            Card boulderSplitter = new Card("Boulder Splitter", ElementType.Earth, 10, 3, "Basic Attack");
+
+            //List of all starting cards
+            CardList = new List<Card>() { imbueWithFire, zingAttack, swordSwing, bloodTaintedStrike, boulderSplitter };
+
+
 
             //Initialises the player
             /*Because player Max/current HP/MP are always the same upon initialisation (for now) 
             ,I made variables to change the values more quickly*/
-            int playerHP = 30;
-            int playerMP = 20;
-            
 
-            Player Player = new Player(playerHP, playerHP, playerMP, playerMP, 0);
-            
-            
 
-            
-            /*Declaring some cards*/
 
-            Card imbueWithFire = new Card("Imbue with Fire", "Flame", 1, 2, "Buff");
-            
-            Card bloodTaintedStrike = new Card("Blood tainted Strike", "Blood", 3, 1, "HP Cost Attack");
-            
-            Card zingAttack = new Card("Zing Attack", "Lightning", 1, 0, "Basic Attack");
-            Card swordSwing = new Card("Sword Swing", null, 3, 1, "Basic Attack");
-            Card boulderSplitter = new Card("Boulder Splitter", "Earth", 10, 3, "Basic Attack");
+            Champion championMaximus = new Champion(30, 30, 20, 20, 0, 10);
 
-            //List of all starting cards
-            List<Card> CardList = new List<Card>() { imbueWithFire, zingAttack, swordSwing, bloodTaintedStrike, boulderSplitter };
 
-            //Initialises first Hand
-            Hand startingHand = new Hand(10, CardList);
+
+
+
 
 
             //makes a new line
@@ -109,11 +110,11 @@ namespace Maximus
 
 
             //initialises and introduces first enemy: Big Bozo
-            Enemy bigBozo = new Enemy("Big Bozo", 30);
+            BigBozo bigBozo = new BigBozo();
             Writing(bigBozo.Name + " appears before you! Use your cards to kill " + bigBozo.Name + " to demonstrate your skills ;)");
             Writing(bigBozo.Name + " currently has " + bigBozo.Health + " health");
-            Writing("You currently have " + Player.PlayerCurrentHealth + '/' + Player.PlayerMaxHealth + " health");
-            Writing("You currently have " + Player.PlayerCurrentMana + '/' + Player.PlayerMaxMana + " mana");
+            Writing("You currently have " + championMaximus.CurrentHealth + '/' + championMaximus.MaxHealth + " health");
+            Writing("You currently have " + championMaximus.CurrentMana + '/' + championMaximus.MaxMana + " mana");
 
             //Allows the player to use cards to attack Big Bozo until he dies.
             while (bigBozo.Health > 0)
@@ -122,53 +123,56 @@ namespace Maximus
                 Console.Write("Type the number of the card you want to use: ");
                 int cardPlayedIndex = Convert.ToInt16(Console.ReadLine()) - 1;
 
-                
-                if (cardPlayedIndex >= 0 && cardPlayedIndex < startingHand.HandSize)
+
+                if (cardPlayedIndex >= 0 && cardPlayedIndex < championMaximus.HandSize)
                 {
-                    Card cardPlayed = startingHand.CurrentHand[cardPlayedIndex];
+                    Card cardPlayed = championMaximus.Hand[cardPlayedIndex];
 
                     if (cardPlayed.CardType == "Basic Attack")
                     {
-                        cardPlayed.BasicAttack(bigBozo, Player);
+                        cardPlayed.BasicAttack(bigBozo, championMaximus);
                     }
                     else if (cardPlayed.CardType == "HP Cost Attack")
                     {
-                        cardPlayed.HpCostAttack(bigBozo, Player);
+                        cardPlayed.HpCostAttack(bigBozo, championMaximus);
                     }
                     else if (cardPlayed.CardType == "Buff")
-                        {
-                            cardPlayed.Buff(Player);
-                        }
-                    startingHand.CurrentHand.RemoveAt(cardPlayedIndex);
-                    startingHand.HandSize--;
+                    {
+                        cardPlayed.Buff(championMaximus);
+                    }
+                    championMaximus.Hand.RemoveAt(cardPlayedIndex);
+                    championMaximus.HandSize--;
 
-                    for (int cardCounter = 1; cardCounter <= startingHand.HandSize; cardCounter++)
+                    for (int cardCounter = 1; cardCounter <= championMaximus.HandSize; cardCounter++)
                     {
 
-                    
-                        Console.Write($"{cardCounter}: {startingHand.CurrentHand[cardCounter - 1].Name}");
-                        if (startingHand.CurrentHand[cardCounter - 1].CardType == "Basic Attack")
+
+                        Console.Write($"{cardCounter}: {championMaximus.Hand[cardCounter - 1].Name}");
+                        if (championMaximus.Hand[cardCounter - 1].CardType == "Basic Attack")
                         {
 
-                            Console.WriteLine($"    DMG: {startingHand.CurrentHand[cardCounter - 1].Magnitude + Player.PlayerBonusAttack}. MP Cost: {startingHand.CurrentHand[cardCounter - 1].Cost} ");
+                            Console.WriteLine($"    DMG: {championMaximus.Hand[cardCounter - 1].Magnitude + championMaximus.BonusAttack}. MP Cost: {championMaximus.Hand[cardCounter - 1].Cost} ");
                         }
-                        else if (startingHand.CurrentHand[cardCounter - 1].CardType == "HP Cost Attack")
+                        else if (championMaximus.Hand[cardCounter - 1].CardType == "HP Cost Attack")
                         {
-                            
-                            Console.WriteLine($"    DMG: {startingHand.CurrentHand[cardCounter - 1].Magnitude + Player.PlayerBonusAttack}. HP Cost: {startingHand.CurrentHand[cardCounter - 1].Cost} ");
+
+                            Console.WriteLine($"    DMG: {championMaximus.Hand[cardCounter - 1].Magnitude + championMaximus.BonusAttack}. HP Cost: {championMaximus.Hand[cardCounter - 1].Cost} ");
                         }
-                        else if (startingHand.CurrentHand[cardCounter - 1].CardType == "Buff")
+                        else if (championMaximus.Hand[cardCounter - 1].CardType == "Buff")
                         {
-                            
-                            Console.WriteLine($"    Buff Attack by: {startingHand.CurrentHand[cardCounter - 1].Magnitude}. MP Cost: {startingHand.CurrentHand[cardCounter - 1].Cost} ");
+
+                            Console.WriteLine($"    Buff Attack by: {championMaximus.Hand[cardCounter - 1].Magnitude}. MP Cost: {championMaximus.Hand[cardCounter - 1].Cost} ");
                         }
                         //TO CATCH IF I HAVENT GIVEN EACH CARD A TYPE THAT CAN BE HANDLED BY THIS CODE
                         else
                         {
                             Console.WriteLine(" *Make a Type for this card* ");
                         }
-                        
+
                     }
+                    bigBozo.CounterMove(championMaximus, cardPlayed.Element);
+
+
 
                 }
                 else
@@ -179,7 +183,7 @@ namespace Maximus
                     Writing("Try again, but this time use your brain? ");
                 }
             }
-            Writing("${bigBozo.Name} is dead :O");
+            Writing($"{bigBozo.Name} is dead :O");
 
 
         }
