@@ -22,93 +22,132 @@ namespace Maximus
         /// </summary>
         /// <param name="name"></param>
         /// <param name="health"></param>
-        public Enemy(string name, int health)
+        public Enemy(string name, int maxHealth, int currentHealth)
         {
             Name = name;
-            Health = health;
+            MaxHealth = maxHealth;
+            CurrentHealth = currentHealth;
         }
 
         #endregion Constructor
 
         #region Parameters
         public string Name { get; set; }
-        public int Health { get; set; }
+        public int MaxHealth { get; set; }
+        public int CurrentHealth { get; set; }
+
 
 
 
 
         #endregion Parameters
 
-        public void CounterMove(Champion champion, ElementType element)
+        public void CounterMove(Trilby trilby, ElementType element)
         {
             switch (element)
             {
                 case ElementType.None:
-                    SingleAttack(champion, 5);
-
+                    NoneCounter(trilby);
                     break;
 
                 case ElementType.Earth:
-                    SingleAttack(champion, 7);
+                    EarthCounter(trilby);
                     break;
 
                 case ElementType.Water:
-                    SingleAttack(champion, 5);
+                    WaterCounter(trilby);
                     break;
 
                 case ElementType.Air:
-                    DoubleAttack(champion, 1);
+                    AirCounter(trilby);
                     break;
 
                 case ElementType.Blood:
-                    SingleAttack(champion, 4);
+                    BloodCounter(trilby);
                     break;
 
                 case ElementType.Lightning:
-                    SingleAttack(champion, 2);
+                    LightningCounter(trilby);
                     break;
 
                 case ElementType.Flame:
-                    Flamed(champion);
-                    SingleAttack(champion, 5);                    
+                    FlameCounter(trilby);
                     break;
 
-              
+
 
             }
-  
+
         }
 
-        private void SingleAttack(Champion champion, int damage)
+      
+        virtual public void NoneCounter(Trilby trilby) 
+        {
+            throw new NotImplementedException();
+        }
+        virtual public void EarthCounter(Trilby trilby) 
+        {
+            throw new NotImplementedException();
+        }
+        virtual public void WaterCounter(Trilby trilby)
+        {
+            throw new NotImplementedException();
+        }
+        virtual public void AirCounter(Trilby trilby)
+        {
+            throw new NotImplementedException();
+        }
+        virtual public void BloodCounter(Trilby trilby)
+        {
+            throw new NotImplementedException();
+        }
+        virtual public void LightningCounter(Trilby trilby)
+        {
+            throw new NotImplementedException();
+        }
+        virtual public void FlameCounter(Trilby trilby)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void SingleAttack(Trilby trilby, int damage)
 
         {
-            champion.CurrentHealth -= damage;
+            trilby.CurrentHealth -= damage;
             Program.Writing("OEUHNNG!");
             Program.Writing($"You were hit for {damage} damage!");
-            Program.Writing($"Your health is now {champion.CurrentHealth}/{champion.MaxHealth}");
-        }
 
-        private void Flamed(Champion champion)
+        }
+               
+        public void MultiAttack(Trilby trilby, int damage, int attacks)
         {
-            champion.CurrentMana -= 1;
+            for (int attacksIndex = 0; attacksIndex < attacks; attacksIndex++)
+            {
+                trilby.CurrentHealth -= damage;
+                Program.Writing("DOOSH! ", false);
+            }
+            Console.WriteLine();
+
+            Program.Writing($"You were hit for {damage} damage {attacks} times", false);
+            for (int attacksIndex = 0; attacksIndex < attacks; attacksIndex++)
+            {
+                Program.Writing("!", false);
+            }
+
+        }
+        public void ManaBurn(Trilby trilby, int manaBurn)
+        {
+            trilby.CurrentMana -= manaBurn;
             Program.Writing("REEHEHEHEHEHE!");
-            Program.Writing($"Your mana was burned down to {champion.CurrentMana}/{champion.MaxMana}!");
+            Program.Writing($"Your mana was burned by {manaBurn}!");
         }
 
-
-        private void DoubleAttack(Champion champion, int damage)
+        public void Stunned() 
         {
-            
-            champion.CurrentHealth -= damage;
-            champion.CurrentHealth -= damage;
-            Program.Writing("DOOSH DOOSH!");
-            Program.Writing($"You were hit for {damage} damage TWICE!!");
-            Program.Writing($"Your health is now {champion.CurrentHealth}/{champion.MaxHealth}");
+            Program.Writing("zzZZzvzvzZZzz!!");
+            Program.Writing($"{Name} was stunned for one turn");
         }
-
-        //receive champions most recent elemntal attack used against enemy
-        //decide response based on element
-
 
 
 

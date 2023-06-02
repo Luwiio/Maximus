@@ -17,162 +17,52 @@ namespace Maximus
         private const int midWait = 0;
         private const int longWait = 0;
 
-        public static List<Card> CardList { get; set; }
+
 
         static void Main(string[] args)
         {
-
-
-
-
-
-            string championName = "Maximus the Bold";
-            Console.Write("Greetings, my leader! What should I, your champion, be called? ");
-
-            string userInputtedName = Console.ReadLine().ToLower();
-
-            /*Prints a response depending on user input*/
-            if (userInputtedName != championName.ToLower())
-            {
-                Writing(userInputtedName, false);
-                ThreeDotWritingLoop();
-                Writing(" That name is pathetic! I will instead be called " + championName);
-
-            }
-            else
-
-                Writing("A GLORIOUS NAME! GOOD CHOICE, ADVENTURER");
-
-            Thread.Sleep(longWait);
-
-            /*Define the real weapon of the champion*/
-            string championWeapon = "Sword";
-            /*Creates a list of weapon options*/
-            List<string> weapons = new List<string>() { "Banana", "Rock", "Flower", "Fishing Rod", championWeapon };
-            /*Print on individual lines the weapon options*/
-            for (int weaponIndex = 0; weaponIndex < weapons.Count; weaponIndex++)
-
-                Writing(weapons[weaponIndex]);
-
-            Thread.Sleep(longWait);
-
-            Writing("Choose the weapon I will wield: ", false);
-
-            /*Prints a response depending on use input*/
-            string userInputtedWeapon = Console.ReadLine().ToLower();
-            if (userInputtedWeapon == championWeapon.ToLower())
-
-                Writing("The obvious choice for a capable leader!");
-
-            else
-            {
-                Writing(userInputtedWeapon, false);
-                ThreeDotWritingLoop();
-                Writing(" What are you retarded? Obviously I am going to wield the " + championWeapon);
-
-            }
-            Thread.Sleep(longWait);
-
-            //makes a new line
-            Console.WriteLine();
-
-            /*Declaring some cards*/
-
-            Card imbueWithFire = new Card("Imbue with Fire", ElementType.Flame, 1, 2, "Buff");
-
-            Card bloodTaintedStrike = new Card("Blood tainted Strike", ElementType.Blood, 3, 1, "HP Cost Attack");
-
-            Card zingAttack = new Card("Zing Attack", ElementType.Lightning, 1, 0, "Basic Attack");
-            Card swordSwing = new Card("Sword Swing", ElementType.None, 3, 1, "Basic Attack");
-            Card boulderSplitter = new Card("Boulder Splitter", ElementType.Earth, 10, 3, "Basic Attack");
-
-            //List of all starting cards
-            CardList = new List<Card>() { imbueWithFire, zingAttack, swordSwing, bloodTaintedStrike, boulderSplitter };
-
-
-
             //Initialises the player
-            /*Because player Max/current HP/MP are always the same upon initialisation (for now) 
-            ,I made variables to change the values more quickly*/
 
-
-
-            Champion championMaximus = new Champion(30, 30, 20, 20, 0, 10);
-
-
-
-
-
-
-
-            //makes a new line
-            Console.WriteLine();
-
-
+            Trilby trilby = new Trilby(30, 30, 20, 20, 0, 10);
+           
             //initialises and introduces first enemy: Big Bozo
             BigBozo bigBozo = new BigBozo();
-            Writing(bigBozo.Name + " appears before you! Use your cards to kill " + bigBozo.Name + " to demonstrate your skills ;)");
-            Writing(bigBozo.Name + " currently has " + bigBozo.Health + " health");
-            Writing("You currently have " + championMaximus.CurrentHealth + '/' + championMaximus.MaxHealth + " health");
-            Writing("You currently have " + championMaximus.CurrentMana + '/' + championMaximus.MaxMana + " mana");
+
 
             //Allows the player to use cards to attack Big Bozo until he dies.
-            while (bigBozo.Health > 0)
+            while (bigBozo.CurrentHealth > 0)
             {
                 Console.WriteLine();
                 Console.Write("Type the number of the card you want to use: ");
                 int cardPlayedIndex = Convert.ToInt16(Console.ReadLine()) - 1;
 
 
-                if (cardPlayedIndex >= 0 && cardPlayedIndex < championMaximus.HandSize)
+                if (cardPlayedIndex >= 0 && cardPlayedIndex < trilby.HandSize)
                 {
-                    Card cardPlayed = championMaximus.Hand[cardPlayedIndex];
+                    Card cardPlayed = trilby.Hand[cardPlayedIndex];
 
-                    if (cardPlayed.CardType == "Basic Attack")
+                    if (cardPlayed.CardType == CardType.BasicAttack)
                     {
-                        cardPlayed.BasicAttack(bigBozo, championMaximus);
+                        cardPlayed.BasicAttack(bigBozo, trilby);
                     }
-                    else if (cardPlayed.CardType == "HP Cost Attack")
+                    else if (cardPlayed.CardType == CardType.HpCostAttack)
                     {
-                        cardPlayed.HpCostAttack(bigBozo, championMaximus);
+                        cardPlayed.HpCostAttack(bigBozo, trilby);
                     }
-                    else if (cardPlayed.CardType == "Buff")
+                    else if (cardPlayed.CardType == CardType.Buff)
                     {
-                        cardPlayed.Buff(championMaximus);
+                        cardPlayed.Buff(trilby);
                     }
-                    championMaximus.Hand.RemoveAt(cardPlayedIndex);
-                    championMaximus.HandSize--;
+                    trilby.Hand.RemoveAt(cardPlayedIndex);
+                    trilby.HandSize--;
 
-                    for (int cardCounter = 1; cardCounter <= championMaximus.HandSize; cardCounter++)
-                    {
-
-
-                        Console.Write($"{cardCounter}: {championMaximus.Hand[cardCounter - 1].Name}");
-                        if (championMaximus.Hand[cardCounter - 1].CardType == "Basic Attack")
-                        {
-
-                            Console.WriteLine($"    DMG: {championMaximus.Hand[cardCounter - 1].Magnitude + championMaximus.BonusAttack}. MP Cost: {championMaximus.Hand[cardCounter - 1].Cost} ");
-                        }
-                        else if (championMaximus.Hand[cardCounter - 1].CardType == "HP Cost Attack")
-                        {
-
-                            Console.WriteLine($"    DMG: {championMaximus.Hand[cardCounter - 1].Magnitude + championMaximus.BonusAttack}. HP Cost: {championMaximus.Hand[cardCounter - 1].Cost} ");
-                        }
-                        else if (championMaximus.Hand[cardCounter - 1].CardType == "Buff")
-                        {
-
-                            Console.WriteLine($"    Buff Attack by: {championMaximus.Hand[cardCounter - 1].Magnitude}. MP Cost: {championMaximus.Hand[cardCounter - 1].Cost} ");
-                        }
-                        //TO CATCH IF I HAVENT GIVEN EACH CARD A TYPE THAT CAN BE HANDLED BY THIS CODE
-                        else
-                        {
-                            Console.WriteLine(" *Make a Type for this card* ");
-                        }
-
-                    }
-                    bigBozo.CounterMove(championMaximus, cardPlayed.Element);
-
-
+                    Console.WriteLine();
+                    
+                  
+                    Console.WriteLine();
+                    bigBozo.CounterMove(trilby, cardPlayed.Element);
+                    trilby.DisplayStats();
+                    Card.ShowPlayerCards(trilby.Hand);
 
                 }
                 else
