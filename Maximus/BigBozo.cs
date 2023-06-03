@@ -10,11 +10,9 @@ namespace Maximus
     {
         public BigBozo(): base("Big Bozo", 30, 30) 
         {
-            Console.WriteLine();
             Program.Writing($"{Name} appears before you!");
             Program.Writing($"{Name} currently has {CurrentHealth}/{MaxHealth} health");
-            
-
+            Console.WriteLine();
         }
         public override void NoneCounter(Trilby trilby) 
         {
@@ -40,7 +38,6 @@ namespace Maximus
         {
             Stunned();
         }
-
         public override void FlameCounter(Trilby trilby)
         {
             ManaBurn(trilby, 3);

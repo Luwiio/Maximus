@@ -32,13 +32,10 @@ namespace Maximus
         #endregion Constructor
 
         #region Parameters
+
         public string Name { get; set; }
         public int MaxHealth { get; set; }
         public int CurrentHealth { get; set; }
-
-
-
-
 
         #endregion Parameters
 
@@ -73,19 +70,16 @@ namespace Maximus
                 case ElementType.Flame:
                     FlameCounter(trilby);
                     break;
-
-
-
             }
 
         }
 
-      
-        virtual public void NoneCounter(Trilby trilby) 
+
+        virtual public void NoneCounter(Trilby trilby)
         {
             throw new NotImplementedException();
         }
-        virtual public void EarthCounter(Trilby trilby) 
+        virtual public void EarthCounter(Trilby trilby)
         {
             throw new NotImplementedException();
         }
@@ -119,7 +113,7 @@ namespace Maximus
             Program.Writing($"You were hit for {damage} damage!");
 
         }
-               
+
         public void MultiAttack(Trilby trilby, int damage, int attacks)
         {
             for (int attacksIndex = 0; attacksIndex < attacks; attacksIndex++)
@@ -143,7 +137,7 @@ namespace Maximus
             Program.Writing($"Your mana was burned by {manaBurn}!");
         }
 
-        public void Stunned() 
+        public void Stunned()
         {
             Program.Writing("zzZZzvzvzZZzz!!");
             Program.Writing($"{Name} was stunned for one turn");

@@ -34,11 +34,9 @@ namespace Maximus
         #endregion parameters
 
 
-        //Generating the cards
+        //Generates game's cards
         public static List<Card> GenerateCards()
         {
-
-
             Card imbueWithFire = new Card("Imbue with Fire", ElementType.Flame, 1, 2, CardType.Buff);
 
             Card bloodTaintedStrike = new Card("Blood tainted Strike", ElementType.Blood, 3, 1, CardType.HpCostAttack);
@@ -47,17 +45,16 @@ namespace Maximus
             Card swordSwing = new Card("Sword Swing", ElementType.None, 3, 1, CardType.BasicAttack);
             Card boulderSplitter = new Card("Boulder Splitter", ElementType.Earth, 10, 3, CardType.BasicAttack);
 
-
             //List of all starting cards
             return new List<Card>() { imbueWithFire, zingAttack, swordSwing, bloodTaintedStrike, boulderSplitter };
-
-
         }
 
+        //Lets the player know what their cards do
         public static void ShowPlayerCards(List<Card> hand)
         {
-
+            //To help with indentation
             int maxCardTextLength = 0;
+
             foreach (Card card in CardList)
             {
                 if (card.Name.Length > maxCardTextLength)
@@ -65,19 +62,16 @@ namespace Maximus
             }
             int cardPostion = "10:".Length + maxCardTextLength + 5;
 
-
             // randomly generates a hand from starting cards
             for (int cardCounter = 1; cardCounter <= hand.Count; cardCounter++)
             {
-               Card currentCard = hand[cardCounter - 1];
-
-                //Lets the player know what their cards do
+                Card currentCard = hand[cardCounter - 1];
                 int currentCardPosition = cardPostion - $"{cardCounter}: {currentCard.Name}".Length;
                 Console.Write($"{cardCounter}: {currentCard.Name}");
                 //Add padding dynamically so the next piece of text is aligned to a certain position
                 Console.Write("".PadLeft(currentCardPosition));
 
-
+                //Displays relevant information based on CardType parameter
                 if (currentCard.CardType == CardType.BasicAttack)
                 {
                     Console.WriteLine($"DMG: {currentCard.Magnitude}. MP Cost: {currentCard.Cost} ");
@@ -96,40 +90,45 @@ namespace Maximus
                     Console.WriteLine(" *Make a Type for this card* ");
                 }
             }
+            Console.WriteLine();
         }
-            public void BasicAttack(Enemy enemy, Trilby trilby)
+
+        public void BasicAttack(Enemy enemy, Trilby trilby)
         {
-
-
-            enemy.CurrentHealth -= (Magnitude + trilby.BonusAttack);
+            enemy.CurrentHealth -= (Magnitude + trilby.BonusPower);
             trilby.CurrentMana -= Cost;
 
             if (enemy.CurrentHealth > 0)
             {
                 Program.Writing("\nKIIYAA!!");
-                Program.Writing($"You played {Name} and have struck {enemy.Name} for {Magnitude + trilby.BonusAttack} damage");
+                Program.Writing($"You played {Name} and have struck {enemy.Name} for {Magnitude + trilby.BonusPower} damage");
                 Program.Writing($"{enemy.Name} now has {enemy.CurrentHealth}/{enemy.MaxHealth} health remaining");
-
             }
-            else
-                Program.Writing("\nI... I think you murdered " + enemy.Name);
 
+            else
+            {
+                Program.Writing($"You have defeated {enemy.Name}");
+            }
+            Console.WriteLine();
         }
 
         public void HpCostAttack(Enemy enemy, Trilby trilby)
         {
-            enemy.CurrentHealth -= (Magnitude + trilby.BonusAttack);
+            enemy.CurrentHealth -= (Magnitude + trilby.BonusPower);
             trilby.CurrentHealth -= Cost;
+
             if (enemy.CurrentHealth > 0)
             {
                 Program.Writing("\nAaArrGrrGJHCH!!!");
-                Program.Writing($"You played {Name} and have struck {enemy.Name} for {Magnitude + trilby.BonusAttack} damage");
+                Program.Writing($"You played {Name} and have struck {enemy.Name} for {Magnitude + trilby.BonusPower} damage");
                 Program.Writing($"{enemy.Name} has {enemy.CurrentHealth}/{enemy.MaxHealth} health remaining");
-
             }
-            else
-                Program.Writing("\nI... I think you murdered " + enemy.Name);
 
+            else
+            {
+                Program.Writing($"You have defeated {enemy.Name}");
+            }
+            Console.WriteLine();
         }
 
         public void Buff(Trilby trilby)
@@ -137,10 +136,12 @@ namespace Maximus
             Program.Writing("\noh?", false);
             Program.ThreeDotWritingLoop();
             Program.Writing(" OH YEAH!!");
-            trilby.BonusAttack += Magnitude;
-            Program.Writing($"You're invigorated to SMASH HARDER by {Magnitude}");
-            Program.Writing($"You now have {trilby.BonusAttack} EXTRA SMASHING POWER!");
+            trilby.BonusPower += Magnitude;
+            Program.Writing($"Your magic has been imbued with {Magnitude} extra power.");
+            Program.Writing($"You now have {trilby.BonusPower} bonus spellcasting power!");
+            Console.WriteLine();
         }
+
 
     }
 
