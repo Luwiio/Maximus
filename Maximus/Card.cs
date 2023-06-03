@@ -39,10 +39,10 @@ namespace Maximus
         {
             Card imbueWithFire = new Card("Imbue with Fire", ElementType.Flame, 1, 2, CardType.Buff);
 
-            Card bloodTaintedStrike = new Card("Blood tainted Strike", ElementType.Blood, 3, 1, CardType.HpCostAttack);
+            Card bloodTaintedStrike = new Card("Blood tainted Strike", ElementType.Blood, 8, 3, CardType.HpCostAttack);
 
-            Card zingAttack = new Card("Zing Attack", ElementType.Lightning, 1, 0, CardType.BasicAttack);
-            Card swordSwing = new Card("Sword Swing", ElementType.None, 3, 1, CardType.BasicAttack);
+            Card zingAttack = new Card("Zing Attack", ElementType.Lightning, 2, 0, CardType.BasicAttack);
+            Card swordSwing = new Card("Sword Swing", ElementType.None, 4, 1, CardType.BasicAttack);
             Card boulderSplitter = new Card("Boulder Splitter", ElementType.Earth, 10, 3, CardType.BasicAttack);
 
             //List of all starting cards
@@ -116,19 +116,24 @@ namespace Maximus
         {
             enemy.CurrentHealth -= (Magnitude + trilby.BonusPower);
             trilby.CurrentHealth -= Cost;
+            Program.Writing("\nAaArrGrrGJHCH!!!");
+            Program.Writing($"You played {Name} and have struck {enemy.Name} for {Magnitude + trilby.BonusPower} damage");
 
             if (enemy.CurrentHealth > 0)
             {
-                Program.Writing("\nAaArrGrrGJHCH!!!");
-                Program.Writing($"You played {Name} and have struck {enemy.Name} for {Magnitude + trilby.BonusPower} damage");
                 Program.Writing($"{enemy.Name} has {enemy.CurrentHealth}/{enemy.MaxHealth} health remaining");
             }
-
             else
             {
                 Program.Writing($"You have defeated {enemy.Name}");
             }
+
             Console.WriteLine();
+            if (trilby.CurrentHealth <= 0)
+            {
+                Program.Writing($"GAME OVER. You channeled more magic than your body could withstand!");
+                Environment.Exit(0);
+            }
         }
 
         public void Buff(Trilby trilby)

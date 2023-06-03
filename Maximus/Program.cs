@@ -30,7 +30,7 @@ namespace Maximus
 
 
             //Allows the player to use cards to attack Big Bozo until he dies.
-            while (bigBozo.CurrentHealth > 0)
+            while (bigBozo.CurrentHealth > 0 && trilby.CurrentHealth > 0)
             {
                 Console.Write("Type the number of the card you want to use: ");
                 int cardPlayedIndex = Convert.ToInt16(Console.ReadLine()) - 1;
@@ -55,7 +55,7 @@ namespace Maximus
                     trilby.Hand.RemoveAt(cardPlayedIndex);
                     trilby.HandSize--;
 
-                    bigBozo.CounterMove(trilby, cardPlayed.Element);
+                  //  bigBozo.CounterMove(trilby, cardPlayed.Element);
                     trilby.DisplayStats();
                     Card.ShowPlayerCards(trilby.Hand);
 

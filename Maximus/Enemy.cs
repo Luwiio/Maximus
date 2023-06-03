@@ -39,6 +39,37 @@ namespace Maximus
 
         #endregion Parameters
 
+        //Declaring dummy Methods which are to be overridden in specific enemy classes.
+        virtual public void NoneCounter(Trilby trilby)
+        {
+            throw new NotImplementedException();
+        }
+        virtual public void EarthCounter(Trilby trilby)
+        {
+            throw new NotImplementedException();
+        }
+        virtual public void WaterCounter(Trilby trilby)
+        {
+            throw new NotImplementedException();
+        }
+        virtual public void AirCounter(Trilby trilby)
+        {
+            throw new NotImplementedException();
+        }
+        virtual public void BloodCounter(Trilby trilby)
+        {
+            throw new NotImplementedException();
+        }
+        virtual public void LightningCounter(Trilby trilby)
+        {
+            throw new NotImplementedException();
+        }
+        virtual public void FlameCounter(Trilby trilby)
+        {
+            throw new NotImplementedException();
+        }
+
+        //Method that makes the enemy react to the players action based on the element used by the player
         public void CounterMove(Trilby trilby, ElementType element)
         {
             switch (element)
@@ -71,38 +102,10 @@ namespace Maximus
                     FlameCounter(trilby);
                     break;
             }
-
+            GameOver(trilby);
         }
 
 
-        virtual public void NoneCounter(Trilby trilby)
-        {
-            throw new NotImplementedException();
-        }
-        virtual public void EarthCounter(Trilby trilby)
-        {
-            throw new NotImplementedException();
-        }
-        virtual public void WaterCounter(Trilby trilby)
-        {
-            throw new NotImplementedException();
-        }
-        virtual public void AirCounter(Trilby trilby)
-        {
-            throw new NotImplementedException();
-        }
-        virtual public void BloodCounter(Trilby trilby)
-        {
-            throw new NotImplementedException();
-        }
-        virtual public void LightningCounter(Trilby trilby)
-        {
-            throw new NotImplementedException();
-        }
-        virtual public void FlameCounter(Trilby trilby)
-        {
-            throw new NotImplementedException();
-        }
 
 
         public void SingleAttack(Trilby trilby, int damage)
@@ -111,7 +114,6 @@ namespace Maximus
             trilby.CurrentHealth -= damage;
             Program.Writing("OEUHNNG!");
             Program.Writing($"You were hit for {damage} damage!");
-
         }
 
         public void MultiAttack(Trilby trilby, int damage, int attacks)
@@ -128,7 +130,6 @@ namespace Maximus
             {
                 Program.Writing("!", false);
             }
-
         }
         public void ManaBurn(Trilby trilby, int manaBurn)
         {
@@ -142,6 +143,18 @@ namespace Maximus
             Program.Writing("zzZZzvzvzZZzz!!");
             Program.Writing($"{Name} was stunned for one turn");
         }
+
+
+
+        private void GameOver(Trilby trilby)
+        {
+            if (trilby.CurrentHealth <= 0)
+            {
+                Program.Writing($"GAME OVER. You were killed by {Name}");
+                Environment.Exit(0);
+            }
+        }
+
 
 
 

@@ -16,11 +16,11 @@ namespace Maximus
         }
         public override void NoneCounter(Trilby trilby) 
         {
-            SingleAttack(trilby, 5);
+            SingleAttack(trilby, 3);
         }
         public override void EarthCounter(Trilby trilby)
         {
-            SingleAttack(trilby, 5);
+            SingleAttack(trilby, 6);
         }
         public override void WaterCounter(Trilby trilby)
         {
@@ -28,11 +28,11 @@ namespace Maximus
         }
         public override void AirCounter(Trilby trilby)
         {
-            SingleAttack(trilby, 5);
+            MultiAttack(trilby, 1, 3);
         }
         public override void BloodCounter(Trilby trilby)
         {
-            SingleAttack(trilby, 5);
+            SingleAttack(trilby, 2);
         }
         public override void LightningCounter(Trilby trilby)
         {
